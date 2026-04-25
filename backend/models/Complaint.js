@@ -1,40 +1,47 @@
 import mongoose from 'mongoose';
 
-const complaintSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
+const complaintSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    description: { type: String, required: true },
     category: {
-        type: String,
-        enum: ['Hardware', 'Software', 'Network', 'Maintenance', 'Other'],
-        default: 'Other'
+      type: String,
+      enum: ['Hardware', 'Software', 'Network', 'Maintenance', 'Other'],
+      default: 'Other',
     },
     priority: {
-        type: String,
-        enum: ['Low', 'Medium', 'High', 'Critical'],
-        default: 'Low'
+      type: String,
+      enum: ['Low', 'Medium', 'High', 'Critical'],
+      default: 'Low',
     },
     status: {
-        type: String,
-        enum: ['Open', 'In Progress', 'Resolved', 'Closed'],
-        default: 'Open'
+      type: String,
+      enum: ['Open', 'In Progress', 'Resolved', 'Closed'],
+      default: 'Open',
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+    submittedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
     assignedTo: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
-}, { timestamps: true });
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    attachments: [
+      {
+        url: String,
+        publicId: String,
+        originalName: String,
+      },
+    ],
+    resolvedAt: {
+      type: Date,
+      default: null,
+    },
+  },
+  { timestamps: true }
+);
 
-const Complaint = mongoose.model('Complaint', complaintSchema);
-export default Complaint;
+export default mongoose.model('Complaint', complaintSchema);

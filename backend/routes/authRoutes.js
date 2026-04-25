@@ -1,60 +1,37 @@
 import express from 'express';
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
-import { getMe, logout } from '../controllers/authController.js';
-import { authMiddleware } from '../middleware/authMiddleware.js';
+import { 
+  googleAuthCallback, 
+  getMe, 
+  logout 
+} from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Initial Google OAuth login route
-router.get('/google',
-  passport.authenticate('google', { scope: ['profile', 'email'], session: false })
+// Step 1: User clicks "Login with Google"
+// Browser visits this URL → redirected to Google's login page
+router.get(
+  '/google', 
+  passport.authenticate('google', { 
+    scope: ['profile', 'email'] 
+  })
 );
 
-// Google OAuth callback route
-router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
-  (req, res) => {
-    // Check if user exists
-    if (!req.user) {
-        return res.status(401).json({ message: 'Authentication failed' });
-    }
-
-    // Generate JWT
-    const payload = {
-        user: {
-            id: req.user.id,
-            role: req.user.role || 'user'
-        }
-    };
-
-    jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: '1d' },
-        (err, token) => {
-            if (err) throw err;
-            
-            // Set token in HTTP-only cookie
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: 24 * 60 * 60 * 1000 // 1 day
-            });
-
-            // Redirect to frontend
-            const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
-            res.redirect(`${clientUrl}/track`); // Redirect user to track or dashboard after login
-        }
-    );
-  }
+// Step 2: Google sends user back here after they log in
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { 
+    session: false, 
+    failureRedirect: '/login' 
+  }),
+  googleAuthCallback
 );
 
-// Get current user route
-router.get('/me', authMiddleware, getMe);
+// Get current logged in user (protected — must be logged in)
+router.get('/me', protect, getMe);
 
-// Logout route
-router.post('/logout', logout);
+// Logout
+router.post('/logout', protect, logout);
 
 export default router;

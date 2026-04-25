@@ -1,51 +1,51 @@
 import 'dotenv/config';
-
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import 'express-async-errors';
 import passport from 'passport';
+import 'express-async-errors';
 
 import connectDB from './config/db.js';
-import './config/passport.js';
+import { configurePassport } from './config/passport.js';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
-// Initialize app
-const app = express();
-
-// Connect to database
+// 1. Connect to MongoDB
 connectDB();
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true
-}));
+// 2. Set up Google OAuth strategy
+configurePassport();
 
-// Passport Config
+const app = express();
+
+// 3. Middlewares — run on EVERY request
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+}));
+app.use(express.json());
+app.use(cookieParser());
 app.use(passport.initialize());
 
-// Routes
-app.use('/api/auth', authRoutes);
+// 4. Routes
+app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
-// Basic Health Check Route
-app.get('/api/status', (req, res) => {
-    res.json({ status: 'ok', message: 'API is running' });
+// 5. Health check
+app.get('/', (req, res) => {
+  res.json({ message: '✅ ComplaintSys API is running!' });
 });
 
-// Error handling middleware
+// 6. Global error handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
+  console.error('❌ Error:', err.message);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
 });
 
-// Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

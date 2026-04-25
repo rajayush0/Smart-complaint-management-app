@@ -20,5 +20,10 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.0"
-  }
+  },
+  "description": "",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
