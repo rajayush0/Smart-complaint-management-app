@@ -1,0 +1,70 @@
+:root {
+  /* Premium Dark Theme Color Palette */
+  --bg-color: #0b0f19;
+  --bg-gradient: radial-gradient(circle at top, #161e31 0%, #0b0f19 70%);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  
+  --accent-primary: #6366f1;
+  --accent-secondary: #a855f7;
+  --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-glow: rgba(99, 102, 241, 0.15);
+  
+  --font-heading: 'Outfit', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  background-image: var(--bg-gradient);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  margin: 0;
+}
+
+p {
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}

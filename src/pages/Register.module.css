@@ -1,0 +1,119 @@
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  padding: 40px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.formCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  padding: 40px 50px;
+  width: 100%;
+  max-width: 550px;
+  transition: transform 0.3s ease;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.formCard:hover {
+  transform: translateY(-4px);
+}
+
+.title {
+  color: #102a43;
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #627d98;
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: #334e68;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #102a43;
+  background-color: #f0f4f8;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #3e8ed0;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(62, 142, 208, 0.15);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #9fb3c8;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(24, 144, 255, 0.3);
+  margin-top: 10px;
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(24, 144, 255, 0.4);
+  background: linear-gradient(135deg, #40a9ff 0%, #1890ff 100%);
+}
+
+.submitBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(24, 144, 255, 0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Environment files - MongoDB URI, JWT secret, Google keys all live here
+.env
+
+# Logs - generated automatically, not needed on GitHub  
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
