@@ -14,6 +14,7 @@ import userRoutes from './routes/userRoutes.js';
 import complaintRoutes from './routes/complaintRoutes.js';
 import commentRoutes from './routes/commentRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import organizationRoutes from './routes/organizationRoutes.js';
 
 // Connect to MongoDB
 connectDB();
@@ -41,6 +42,7 @@ app.use('/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/complaints', complaintRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/organizations', organizationRoutes);
 
 // Nested route — comments live under complaints
 // /api/complaints/:id/comments

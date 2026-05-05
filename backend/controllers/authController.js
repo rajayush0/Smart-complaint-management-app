@@ -12,14 +12,13 @@ const generateToken = (userId) => {
 // Runs after Google OAuth succeeds
 export const googleAuthCallback = async (req, res) => {
   try {
-    console.log('✅ Google callback reached');
-    console.log('User from Google:', req.user);
-
     const token = generateToken(req.user._id);
-    console.log('✅ Token generated:', token);
+
+    // If user hasn't completed onboarding (role + org selection), send them there
+    const needsOnboarding = !req.user.onboardingComplete;
 
     res.redirect(
-      `${process.env.CLIENT_URL}/auth/success?token=${token}`
+      `${process.env.CLIENT_URL}/auth/success?token=${token}&onboarding=${needsOnboarding}`
     );
   } catch (err) {
     console.error('❌ Auth callback error:', err.message);
@@ -27,9 +26,14 @@ export const googleAuthCallback = async (req, res) => {
   }
 };
 
-// GET /auth/me — returns current logged in user
+// GET /auth/me — returns current logged in user with org info
 export const getMe = async (req, res) => {
-  res.json({ success: true, user: req.user });
+  const User = (await import('../models/User.js')).default;
+  const user = await User.findById(req.user._id)
+    .populate({ path: 'organizations.org', select: 'name inviteCode description' })
+    .select('-__v');
+
+  res.json({ success: true, user });
 };
 
 // POST /auth/logout

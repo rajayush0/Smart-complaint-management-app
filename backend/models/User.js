@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // Global role kept for backward compat, but org-level role takes precedence
     role: {
       type: String,
       enum: ['user', 'staff', 'admin'],
@@ -35,6 +36,21 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    // ── NEW: Multi-org support ────────────────────────────────
+    // Has the user completed role selection + org join/create?
+    onboardingComplete: {
+      type: Boolean,
+      default: false,
+    },
+    // All organizations this user belongs to (with per-org role)
+    organizations: [
+      {
+        org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+        role: { type: String, enum: ['admin', 'staff', 'user'], default: 'user' },
+        isDefault: { type: Boolean, default: false },
+        joinedAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );
