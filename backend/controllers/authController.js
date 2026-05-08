@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
-// Helper function to generate a JWT token
 const generateToken = (userId) => {
   return jwt.sign(
     { id: userId },
@@ -13,26 +13,17 @@ const generateToken = (userId) => {
 export const googleAuthCallback = async (req, res) => {
   try {
     const token = generateToken(req.user._id);
-
-    // If user hasn't completed onboarding (role + org selection), send them there
-    const needsOnboarding = !req.user.onboardingComplete;
-
-    res.redirect(
-      `${process.env.CLIENT_URL}/auth/success?token=${token}&onboarding=${needsOnboarding}`
-    );
+    res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
   } catch (err) {
     console.error('❌ Auth callback error:', err.message);
     res.redirect(`${process.env.CLIENT_URL}/login?error=auth_failed`);
   }
 };
 
-// GET /auth/me — returns current logged in user with org info
+// GET /auth/me — returns current logged in user (fresh from DB)
 export const getMe = async (req, res) => {
-  const User = (await import('../models/User.js')).default;
-  const user = await User.findById(req.user._id)
-    .populate({ path: 'organizations.org', select: 'name inviteCode description' })
-    .select('-__v');
-
+  const user = await User.findById(req.user._id).select('-__v -googleId');
+  if (!user) return res.status(404).json({ message: 'User not found' });
   res.json({ success: true, user });
 };
 

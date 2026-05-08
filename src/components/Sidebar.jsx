@@ -108,7 +108,7 @@ export default function Sidebar() {
           <div
             key={item.label}
             className={`dash-nav-item${isActive(item.path) ? ' active' : ''}`}
-            onClick={() => navigate(item.path.split('?')[0])}
+            onClick={() => navigate(item.path)}
           >
             {item.icon}
             {item.label}

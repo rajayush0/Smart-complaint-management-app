@@ -2,8 +2,19 @@ import express from 'express';
 import User from '../models/User.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { authorize } from '../middleware/roleMiddleware.js';
+import { completeOnboarding } from '../controllers/onboardingController.js';
+import { getAllStaff, getStaffByGroup } from '../controllers/staffController.js';
 
 const router = express.Router();
+
+// PATCH /api/users/onboarding
+// Must be above /:id/role so Express doesn't treat "onboarding" as an :id param
+router.patch('/onboarding', protect, completeOnboarding);
+
+// GET /api/users/staff/all   — /staff/all MUST be above /staff/:group so "all" isn't captured as :group
+// GET /api/users/staff/:group
+router.get('/staff/all',    protect, authorize('admin'), getAllStaff);
+router.get('/staff/:group', protect, authorize('admin'), getStaffByGroup);
 
 // GET /api/users
 // Only admins can see all users

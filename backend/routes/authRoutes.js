@@ -11,12 +11,10 @@ const router = express.Router();
 
 // Step 1: User clicks "Login with Google"
 // Browser visits this URL → redirected to Google's login page
-router.get(
-  '/google', 
-  passport.authenticate('google', { 
-    scope: ['profile', 'email'] 
-  })
-);
+router.get('/google', passport.authenticate('google', { 
+  scope: ['profile', 'email'],
+  prompt: 'select_account'  // forces Google to show account picker
+}));
 
 // Step 2: Google sends user back here after they log in
 router.get(

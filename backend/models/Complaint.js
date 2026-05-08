@@ -24,11 +24,6 @@ const complaintSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    organization: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Organization',
-      default: null,  // null = legacy data before multi-org
-    },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

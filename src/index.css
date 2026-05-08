@@ -71,6 +71,13 @@
 
   /* Transitions */
   --transition: all 0.18s ease;
+
+  /* Gradient & glass — used by Landing page dark theme and Navbar */
+  --accent-gradient:     linear-gradient(135deg, #10b981 0%, #6366f1 100%);
+  --glass-bg:            rgba(255, 255, 255, 0.04);
+  --glass-border:        rgba(255, 255, 255, 0.08);
+  --glass-border-active: rgba(255, 255, 255, 0.18);
+  --bg-primary:          #ffffff;
 }
 
 /* ── Reset ─────────────────────────────────────────────────── */
