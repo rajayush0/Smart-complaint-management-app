@@ -4,6 +4,7 @@ import { protect } from '../middleware/authMiddleware.js';
 import { authorize } from '../middleware/roleMiddleware.js';
 import { completeOnboarding } from '../controllers/onboardingController.js';
 import { getAllStaff, getStaffByGroup } from '../controllers/staffController.js';
+import { deleteMyAccount, deleteUserByAdmin } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -24,6 +25,12 @@ router.get('/', protect, authorize('admin'), async (req, res) => {
     .sort({ createdAt: -1 });
   res.json({ success: true, users });
 });
+
+// DELETE /api/users/me — must be above /:id so "me" isn't captured as :id
+router.delete('/me', protect, deleteMyAccount);
+
+// DELETE /api/users/:id  (admin only)
+router.delete('/:id', protect, authorize('admin'), deleteUserByAdmin);
 
 // PATCH /api/users/:id/role
 // Admin changes a user's role
