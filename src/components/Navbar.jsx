@@ -206,6 +206,11 @@ export default function Navbar() {
           </span>
         </div>
 
+        {/* My Profile */}
+        <button onClick={() => navigate('/profile')} className="btn-ghost" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
+          👤 Profile
+        </button>
+
         {/* Logout */}
         <button onClick={logout} className="btn-ghost" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
           Logout

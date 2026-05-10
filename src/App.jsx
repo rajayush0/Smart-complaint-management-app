@@ -13,6 +13,7 @@ import UserDashboard from './pages/Dashboard/UserDashboard';
 import StaffDashboard from './pages/Dashboard/StaffDashboard';
 import AdminDashboard from './pages/Dashboard/AdminDashboard';
 import ComplaintDetail from './pages/Complaint/ComplaintDetail';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 function App() {
   return (
@@ -41,6 +42,12 @@ function App() {
         <Route path="/admin" element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminDashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         } />
 

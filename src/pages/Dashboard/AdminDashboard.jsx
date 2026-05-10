@@ -115,6 +115,14 @@ export default function AdminDashboard() {
     } catch { /* silent */ }
   };
 
+  const deleteUser = async (userId, userName) => {
+    if (!window.confirm(`Delete ${userName}'s account? This also removes all their complaints, comments, and notifications. This cannot be undone.`)) return;
+    try {
+      await api.delete(`/api/users/${userId}`);
+      setUsers(prev => prev.filter(u => u._id !== userId));
+    } catch { /* silent */ }
+  };
+
   const stats = {
     total:      complaints.length,
     open:       complaints.filter(c => c.status === 'Open').length,
@@ -396,6 +404,15 @@ export default function AdminDashboard() {
                       >
                         {['user', 'staff', 'admin'].map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
+                      {u._id !== user._id && (
+                        <button
+                          className="btn-danger"
+                          style={{ fontSize: '0.78rem', padding: '5px 12px' }}
+                          onClick={() => deleteUser(u._id, u.name)}
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
