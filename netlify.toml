@@ -4,5 +4,4 @@
 
 [build.environment]
   SECRETS_SCAN_OMIT_PATHS = "backend/**/*, .env.example, backend/.env.example"
-  # NODE_ENV is not a secret — "development" appears in .gitignore as part of a filename
-  SECRETS_SCAN_OMIT_KEYS = "NODE_ENV"
+  SECRETS_SCAN_OMIT_KEYS = "NODE_ENV,PORT"
