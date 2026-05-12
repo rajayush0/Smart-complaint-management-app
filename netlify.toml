@@ -5,3 +5,8 @@
 [build.environment]
   SECRETS_SCAN_OMIT_PATHS = "backend/**/*, .env.example, backend/.env.example"
   SECRETS_SCAN_OMIT_KEYS = "NODE_ENV,PORT"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
